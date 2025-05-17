@@ -19,7 +19,7 @@ const TableUser = (props) => {
 
     if (res && res.data) {
       setTotalUser(res.total);
-      setTotalPages(res.total_pages);
+      setTotalPages(res.totalPages);
       setListUsers(res.data);
     }
   };
@@ -47,8 +47,8 @@ const TableUser = (props) => {
                 <tr key={`users-${index}`}>
                   <td>{item.id}</td>
                   <td>{item.email}</td>
-                  <td>{item.first_name}</td>
-                  <td>{item.last_name}</td>
+                  <td>{item.firstName}</td>
+                  <td>{item.lastName}</td>
                 </tr>
               );
             })}
