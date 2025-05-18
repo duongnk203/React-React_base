@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { fetchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
+import ModalEditUser from "./ModalEditUser";
 
 const TableUser = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -10,9 +11,13 @@ const TableUser = (props) => {
   const [totalPages, setTotalPages] = useState(0);
 
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
+  const [isShowModalEditUser, setIsShowModalEditUser] = useState(false);
+
+  const [dataUserEdit, setDataUserEdit] = useState({});
 
   const handleClose = () => {
     setIsShowModalAddNew(false);
+    setIsShowModalEditUser(false);
   };
 
   const handleUpdateTable = (user) => {
@@ -39,6 +44,12 @@ const TableUser = (props) => {
     getUsers(+event.selected + 1);
   };
 
+  const handleEditUser = (user) => {
+    console.log("user: ", user);
+    setDataUserEdit(user);
+    setIsShowModalEditUser(true);
+  };
+
   return (
     <>
       <div className="my-3 add-new">
@@ -57,6 +68,7 @@ const TableUser = (props) => {
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +81,15 @@ const TableUser = (props) => {
                   <td>{item.email}</td>
                   <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
+                  <td>
+                    <button
+                      className="btn btn-warning mx-3"
+                      onClick={() => handleEditUser(item)}
+                    >
+                      Edit
+                    </button>
+                    <button className="btn btn-danger">Delete</button>
+                  </td>
                 </tr>
               );
             })}
@@ -96,6 +117,11 @@ const TableUser = (props) => {
         show={isShowModalAddNew}
         handleClose={handleClose}
         handleUpdateTable={handleUpdateTable}
+      />
+      <ModalEditUser
+        show={isShowModalEditUser}
+        handleClose={handleClose}
+        dataUserEdit={dataUserEdit}
       />
     </>
   );
