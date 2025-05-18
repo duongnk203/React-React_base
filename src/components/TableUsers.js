@@ -4,6 +4,7 @@ import { fetchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEditUser from "./ModalEditUser";
+import _ from "lodash";
 
 const TableUser = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -22,6 +23,14 @@ const TableUser = (props) => {
 
   const handleUpdateTable = (user) => {
     setListUsers([user, ...listUsers]);
+  };
+
+  const handleEditUserFromModal = (user) => {
+    let cloneListUser = _.cloneDeep(listUsers);
+    let index = listUsers.findIndex((item) => item.id === user.id);
+    cloneListUser[index].firstName = user.firstName;
+    setListUsers(cloneListUser);
+    console.log(">> clone list: ", cloneListUser);
   };
 
   useEffect(() => {
@@ -122,6 +131,7 @@ const TableUser = (props) => {
         show={isShowModalEditUser}
         handleClose={handleClose}
         dataUserEdit={dataUserEdit}
+        handleEditUserFromModal={handleEditUserFromModal}
       />
     </>
   );
